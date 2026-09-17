@@ -89,11 +89,11 @@ function getCan(
       .addActionRowComponents((t) =>
         t.addComponents(
           new ButtonBuilder()
-            .setCustomId(`play_${sound.name}`)
+            .setCustomId(`soundboard:play:${sound.id}`)
             .setLabel("Play")
             .setStyle(ButtonStyle.Primary),
           new ButtonBuilder()
-            .setCustomId(`upload_${sound.name}`)
+            .setCustomId(`soundboard:upload:${sound.id}`)
             .setLabel("Upload")
             .setStyle(ButtonStyle.Secondary),
         ),
