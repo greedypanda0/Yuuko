@@ -5,7 +5,7 @@ import type { Event } from "../../types/event.type.js";
 const event: Event = {
   name: Events.Debug,
   once: false,
-  is_disabled: false,
+  is_disabled: true,
   execute: async (_client, message: string) => {
     await sendWebhookLog("Client debug", "```\n" + message + "\n```", 0x5865f2);
   },
