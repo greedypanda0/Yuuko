@@ -8,7 +8,12 @@ const event: Event = {
   execute: async (client, sound: GuildSoundboardSound) => {
     if (client.soundboardManager.get(sound.name)) return;
 
-    client.soundboardManager.add(sound.soundId, sound.name, sound.guildId, sound.url);
+    client.soundboardManager.add(
+      sound.soundId,
+      sound.name,
+      sound.guildId,
+      sound.url,
+    );
   },
 };
 

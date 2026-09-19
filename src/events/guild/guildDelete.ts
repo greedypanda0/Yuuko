@@ -9,7 +9,12 @@ const event: Event = {
   execute: async (_client, guild: Guild) => {
     await sendWebhookLog(
       "Left guild",
-      "**Name:** " + guild.name + "\n**ID:** `" + guild.id + "`\n**Members:** " + guild.memberCount,
+      "**Name:** " +
+        guild.name +
+        "\n**ID:** `" +
+        guild.id +
+        "`\n**Members:** " +
+        guild.memberCount,
       0xed4245,
     );
   },

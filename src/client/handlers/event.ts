@@ -40,15 +40,14 @@ class EventsHandler {
       return;
     }
 
-    if (event.once) {
-      this.client.once(event.name, (...args) =>
-        event.execute(this.client, ...args),
-      );
-    } else {
-      this.client.on(event.name, (...args) =>
-        event.execute(this.client, ...args),
-      );
-    }
+    const execute = (...args: unknown[]) => {
+      Promise.resolve(event.execute(this.client, ...args)).catch((error) => {
+        logger.error(`Event "${event.name}" failed:`, error);
+      });
+    };
+
+    if (event.once) this.client.once(event.name, execute);
+    else this.client.on(event.name, execute);
   }
 }
 

@@ -28,7 +28,9 @@ class SoundBoardManager {
 
   add(id: string | null, name: string, guildId: string | null, url: string) {
     this.client.sqlite
-      .prepare("insert into sounds (discord_id, name, guild_id, url) VALUES (?, ?, ?, ?)")
+      .prepare(
+        "insert into sounds (discord_id, name, guild_id, url) VALUES (?, ?, ?, ?)",
+      )
       .run(id, name, guildId, url);
   }
 
@@ -38,9 +40,16 @@ class SoundBoardManager {
       .run(discordId);
   }
 
-  updateDiscordSound(discordId: string, name: string, guildId: string, url: string) {
+  updateDiscordSound(
+    discordId: string,
+    name: string,
+    guildId: string,
+    url: string,
+  ) {
     this.client.sqlite
-      .prepare("update sounds set name = ?, guild_id = ?, url = ? where discord_id = ?")
+      .prepare(
+        "update sounds set name = ?, guild_id = ?, url = ? where discord_id = ?",
+      )
       .run(name, guildId, url, discordId);
   }
 
@@ -69,21 +78,31 @@ class SoundBoardManager {
     return { count: total, sounds: stmt.all(limit, (page - 1) * limit) };
   }
 
-  search(query: string, page = 1, limit = 10): { count: number; sounds: Sound[] } {
+  search(
+    query: string,
+    page = 1,
+    limit = 10,
+  ): { count: number; sounds: Sound[] } {
     const searchTerm = `%${query}%`;
     const countStmt = this.client.sqlite.prepare<[string], { total: number }>(
       "SELECT COUNT(*) AS total FROM sounds WHERE name LIKE ?",
     );
     const { total } = countStmt.get(searchTerm) || { total: 0 };
-    const searchSounds = this.client.sqlite.prepare<[string, number, number], Sound>(
-      "SELECT * FROM sounds WHERE name LIKE ? ORDER BY id LIMIT ? OFFSET ?",
-    );
-    return { count: total, sounds: searchSounds.all(searchTerm, limit, (page - 1) * limit) };
+    const searchSounds = this.client.sqlite.prepare<
+      [string, number, number],
+      Sound
+    >("SELECT * FROM sounds WHERE name LIKE ? ORDER BY id LIMIT ? OFFSET ?");
+    return {
+      count: total,
+      sounds: searchSounds.all(searchTerm, limit, (page - 1) * limit),
+    };
   }
 
   private async fetchFromPackage() {
     const sounds = await all();
-    const sources = sounds.filter((c) => c.cat != "nsfw").flatMap((c) => c.sounds);
+    const sources = sounds
+      .filter((c) => c.cat != "nsfw")
+      .flatMap((c) => c.sounds);
     for (const sound of sources) this.add(null, sound.name, null, sound.path);
   }
 

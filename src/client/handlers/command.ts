@@ -60,21 +60,27 @@ class CommandHandler {
     if (int.isAutocomplete()) {
       if (command.options.autocomplete) {
         try {
-          command.options.autocomplete(this.client, int);
-        } catch (e) {
-          console.error(e);
+          await command.options.autocomplete(this.client, int);
+        } catch (error) {
+          logger.error("Autocomplete failed:", error);
+          if (!int.responded) await int.respond([]);
         }
       }
       return;
     }
 
-    await int.deferReply({
-      flags: command.options.ephemeral ? [MessageFlags.Ephemeral] : [],
-    });
+    try {
+      await int.deferReply({
+        flags: command.options.ephemeral ? [MessageFlags.Ephemeral] : [],
+      });
+    } catch (error) {
+      logger.error("Unable to acknowledge interaction:", error);
+      return;
+    }
 
     const cooldown = command.getCooldown(int.user.id);
     if (cooldown > 0) {
-      int.followUp({
+      await int.followUp({
         content: `You'll get what you wished for… <t:${Math.floor((Date.now() + cooldown) / 1000)}:R>`,
       });
       return;
@@ -83,8 +89,8 @@ class CommandHandler {
     try {
       await command.options.execute(this.client, int);
       command.setCooldown(int.user.id);
-    } catch (e) {
-      logger.error(e);
+    } catch (error) {
+      logger.error("Command failed:", error);
 
       await int.followUp({
         content: "Running this command was not written in destiny today.",

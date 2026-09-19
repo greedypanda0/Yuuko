@@ -31,7 +31,12 @@ class BotClient extends Client {
     await this.eventsHandler.loadEvents();
     await this.commandsHandler.loadCommands();
 
-    this.login(process.env.BOT_TOKEN);
+    const token = process.env.BOT_TOKEN;
+    if (!token) {
+      throw new Error("BOT_TOKEN is not configured");
+    }
+
+    await this.login(token);
   }
 }
 

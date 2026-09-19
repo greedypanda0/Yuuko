@@ -5,7 +5,11 @@ const event: Event = {
   name: Events.GuildSoundboardSoundUpdate,
   once: false,
   is_disabled: false,
-  execute: async (_client, _oldSound: GuildSoundboardSound | null, sound: GuildSoundboardSound) => {
+  execute: async (
+    _client,
+    _oldSound: GuildSoundboardSound | null,
+    sound: GuildSoundboardSound,
+  ) => {
     _client.soundboardManager.updateDiscordSound(
       sound.soundId,
       sound.name,
