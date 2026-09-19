@@ -1,4 +1,3 @@
-import type { Options } from "better-sqlite3";
 import type { GatewayIntentBits } from "discord.js";
 
 export interface Config {
@@ -9,7 +8,7 @@ export interface Config {
   guildId: string;
   events: EventsConfig;
   commands: CommandsConfig;
-  sqlite: Sqlite;
+  database: DatabaseConfig;
 }
 
 export interface EventsConfig {
@@ -22,7 +21,6 @@ export interface CommandsConfig {
   debug?: boolean;
 }
 
-export interface Sqlite {
-  path: string;
-  options?: Options;
+export interface DatabaseConfig {
+  url: string;
 }

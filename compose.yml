@@ -1,0 +1,9 @@
+services:
+  bot:
+    build: .
+    container_name: yuuko-bot
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+    restart: unless-stopped

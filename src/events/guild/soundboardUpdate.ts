@@ -10,7 +10,7 @@ const event: Event = {
     _oldSound: GuildSoundboardSound | null,
     sound: GuildSoundboardSound,
   ) => {
-    _client.soundboardManager.updateDiscordSound(
+    await _client.soundboardManager.updateDiscordSound(
       sound.soundId,
       sound.name,
       sound.guildId,

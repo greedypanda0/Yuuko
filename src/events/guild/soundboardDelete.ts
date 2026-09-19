@@ -6,7 +6,7 @@ const event: Event = {
   once: false,
   is_disabled: false,
   execute: async (client, sound: GuildSoundboardSound) => {
-    client.soundboardManager.removeDiscordSound(sound.soundId);
+    await client.soundboardManager.removeDiscordSound(sound.soundId);
   },
 };
 

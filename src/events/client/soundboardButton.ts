@@ -19,7 +19,7 @@ const event: Event = {
 
     const [, action, rawId] = interaction.customId.split(":");
     const soundId = Number(rawId);
-    const sound = client.soundboardManager.getById(soundId);
+    const sound = await client.soundboardManager.getById(soundId);
     if (!sound) {
       await interaction.reply({
         content: "That sound is no longer available.",

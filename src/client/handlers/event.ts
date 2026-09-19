@@ -15,8 +15,10 @@ class EventsHandler {
   }
 
   async loadEvents() {
+    const extension = process.env.NODE_ENV === "production" ? "js" : "ts";
+
     for (const dir of this.config.subdirs) {
-      const files = await glob(`${this.config.path}/${dir}/*.{ts,js}`);
+      const files = await glob(`${this.config.path}/${dir}/*.${extension}`);
 
       for (const file of files) {
         await this.attachEvent(file);

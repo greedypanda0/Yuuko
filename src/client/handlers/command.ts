@@ -99,7 +99,9 @@ class CommandHandler {
   }
 
   async loadCommands() {
-    const files = await glob(`${this.config.path}/**/**.{js,ts}`, {
+    const extension = process.env.NODE_ENV === "production" ? "js" : "ts";
+
+    const files = await glob(`${this.config.path}/**/**.${extension}`, {
       withFileTypes: true,
     });
 

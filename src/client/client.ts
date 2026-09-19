@@ -4,7 +4,7 @@ import type { Config } from "../types/config.type.js";
 import { EventsHandler } from "./handlers/event.js";
 import { CommandHandler } from "./handlers/command.js";
 import { VoiceManager } from "../features/voice/index.js";
-import { Sqlite3 } from "../struct/sqlite3.js";
+import { Postgres } from "../struct/postgres.js";
 import { SoundBoardManager } from "../features/soundboard/index.js";
 import "./extensions.js";
 
@@ -13,7 +13,7 @@ class BotClient extends Client {
   eventsHandler: EventsHandler;
   commandsHandler: CommandHandler;
   voiceManager: VoiceManager;
-  sqlite: Sqlite3;
+  postgres: Postgres;
   soundboardManager: SoundBoardManager;
 
   constructor() {
@@ -23,11 +23,12 @@ class BotClient extends Client {
     this.eventsHandler = new EventsHandler(this);
     this.commandsHandler = new CommandHandler(this);
     this.voiceManager = new VoiceManager(this);
-    this.sqlite = new Sqlite3();
+    this.postgres = new Postgres();
     this.soundboardManager = new SoundBoardManager(this);
   }
 
   async run() {
+    await this.soundboardManager.initialize();
     await this.eventsHandler.loadEvents();
     await this.commandsHandler.loadCommands();
 

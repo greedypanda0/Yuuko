@@ -12,16 +12,17 @@ export const config: Config = {
   in_dev: true,
   guildId: "876705616607969330",
   events: {
-    path: "src/events",
+    path: process.env.NODE_ENV === "production" ? "dist/events" : "src/events",
     subdirs: ["client", "guild"],
   },
 
   commands: {
-    path: "src/commands",
+    path:
+      process.env.NODE_ENV === "production" ? "dist/commands" : "src/commands",
     debug: true,
   },
 
-  sqlite: {
-    path: "sqlite3.db",
+  database: {
+    url: process.env.DATABASE_URL!,
   },
 };

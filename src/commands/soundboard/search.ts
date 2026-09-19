@@ -20,7 +20,7 @@ export default new SlashCommand({
   execute: async (client, int: ChatInputCommandInteraction) => {
     const query = int.options.getString("query", true);
     let page = 1;
-    const { can, pages } = getCan(client, page, query);
+    const { can, pages } = await getCan(client, page, query);
     const row = getButtons(page, pages);
 
     const m = await int.followUp({
@@ -36,7 +36,7 @@ export default new SlashCommand({
     collector.on("collect", async (i) => {
       if (i.customId == "next") {
         page += 1;
-        const { can, pages } = getCan(client, page, query);
+        const { can, pages } = await getCan(client, page, query);
         const row = getButtons(page, pages);
         await i.update({
           components: [can, row],
@@ -48,7 +48,7 @@ export default new SlashCommand({
         page -= 1;
         if (page < 1) page = 1;
 
-        const { can, pages } = getCan(client, page, query);
+        const { can, pages } = await getCan(client, page, query);
         const row = getButtons(page, pages);
         await i.update({
           components: [can, row],
@@ -70,15 +70,19 @@ export default new SlashCommand({
   },
 });
 
-function getCan(
+async function getCan(
   client: BotClient,
   page: number,
   query: string,
-): { can: ContainerBuilder; pages: number } {
+): Promise<{ can: ContainerBuilder; pages: number }> {
   const can = new ContainerBuilder()
     .setAccentColor(0x36393f)
     .addTextDisplayComponents((t) => t.setContent("## The sounds i have"));
-  const { count, sounds } = client.soundboardManager.search(query, page, 5);
+  const { count, sounds } = await client.soundboardManager.search(
+    query,
+    page,
+    5,
+  );
   const pages = Math.ceil(count / 5);
 
   for (const sound of sounds) {

@@ -6,9 +6,9 @@ const event: Event = {
   once: false,
   is_disabled: false,
   execute: async (client, sound: GuildSoundboardSound) => {
-    if (client.soundboardManager.get(sound.name)) return;
+    if (await client.soundboardManager.get(sound.name)) return;
 
-    client.soundboardManager.add(
+    await client.soundboardManager.add(
       sound.soundId,
       sound.name,
       sound.guildId,

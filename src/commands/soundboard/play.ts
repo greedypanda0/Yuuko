@@ -18,7 +18,7 @@ export default new SlashCommand({
     ),
   autocomplete: async (client, int: AutocompleteInteraction) => {
     const q = int.options.getFocused();
-    const { sounds } = client.soundboardManager.search(q);
+    const { sounds } = await client.soundboardManager.search(q);
 
     return await int.respond(
       sounds.map((l) => ({
