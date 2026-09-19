@@ -116,7 +116,7 @@ class SoundBoardManager {
       );
       create index if not exists idx_sounds_name on sounds(name);
     `);
-    await this.fetchFiles();
+    // await this.fetchFiles();
   }
 
   private async fetchFiles() {

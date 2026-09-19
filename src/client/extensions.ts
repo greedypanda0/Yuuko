@@ -1,11 +1,12 @@
 import {
-  CommandInteraction,
+  Base,
+  BaseInteraction,
   EmbedBuilder,
   type InteractionReplyOptions,
 } from "discord.js";
 
 declare module "discord.js" {
-  interface CommandInteraction {
+  interface BaseInteraction {
     sendE(args: SendEArgs): Promise<unknown>;
   }
 }
@@ -17,7 +18,11 @@ interface SendEArgs {
   color?: number;
 }
 
-CommandInteraction.prototype.sendE = async function (args) {
+BaseInteraction.prototype.sendE = async function (args) {
+  if (!this.isRepliable()) {
+    throw new Error("Interaction is not repliable");
+  }
+
   const user = this.client.user;
 
   const embed = new EmbedBuilder().setColor(args.color ?? 0x36393f).setFooter({

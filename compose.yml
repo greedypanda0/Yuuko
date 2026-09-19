@@ -1,6 +1,9 @@
 services:
   bot:
     build: .
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
     container_name: yuuko-bot
     env_file:
       - .env
