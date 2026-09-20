@@ -1,4 +1,5 @@
 import "dotenv/config";
+import "./http.js";
 import net from "node:net";
 import { BotClient } from "./client/client.js";
 
