@@ -9,7 +9,7 @@ export const config: Config = {
       GatewayIntentBits.GuildExpressions,
     ],
   },
-  in_dev: true,
+  in_dev: process.env.NODE_ENV != "production",
   guildId: "876705616607969330",
   events: {
     path: process.env.NODE_ENV === "production" ? "dist/events" : "src/events",
