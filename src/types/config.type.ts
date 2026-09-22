@@ -1,9 +1,8 @@
-import type { GatewayIntentBits } from "discord.js";
+import type { ClientOptions } from "discord.js";
+import type { Client, GatewayIntentBits } from "discord.js";
 
 export interface Config {
-  client: {
-    intents: GatewayIntentBits[];
-  };
+  client: ClientOptions;
   in_dev: boolean;
   guildId: string;
   events: EventsConfig;

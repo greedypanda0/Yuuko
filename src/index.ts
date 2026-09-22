@@ -1,9 +1,9 @@
 import "dotenv/config";
-import "./http.js";
 import net from "node:net";
 import { BotClient } from "./client/client.js";
 
 net.setDefaultAutoSelectFamily(false);
+import "./http.js";
 const client = new BotClient();
 
 client.run().catch((error: unknown) => {

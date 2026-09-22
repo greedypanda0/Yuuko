@@ -1,5 +1,6 @@
 import { GatewayIntentBits } from "discord.js";
 import type { Config } from "./types/config.type.js";
+import { ActivityType } from "discord.js";
 
 export const config: Config = {
   client: {
@@ -8,6 +9,15 @@ export const config: Config = {
       GatewayIntentBits.GuildVoiceStates,
       GatewayIntentBits.GuildExpressions,
     ],
+    presence: {
+      activities: [
+        {
+          name: "Sounds | More than 100 sounds.",
+          type: ActivityType.Playing,
+        },
+      ],
+      status: "idle",
+    },
   },
   in_dev: process.env.NODE_ENV != "production",
   guildId: "876705616607969330",
